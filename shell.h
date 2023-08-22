@@ -8,20 +8,18 @@
 #include <sys/wait.h>
 
 /* Struct to store shell information */
-typedef struct info_struct
-{
-char **args;
-char *command;
-char *input_file;
-char *output_file;
-int background;
+typedef struct info_struct {
+    char **args;
+    char *command;
+    char *input_file;
+    char *output_file;
+    int background;
 } info_t;
 
 /* Struct for built-in commands and their functions */
-typedef struct builtin_func
-{
-char *cmd;
-int (*func)(info_t *);
+typedef struct builtin_func {
+    char *cmd;
+    int (*func)(char **);
 } builtin_func;
 
 /* Utility functions */
@@ -31,13 +29,13 @@ int _putchar(char c);
 void print_number(int n);
 
 /* Built-in command implementations */
-int builtin_cd(info_t *info);
-int builtin_help(info_t *info);
-int builtin_exit(info_t *info);
+int builtin_cd(char **args);
+int builtin_help(char **args);
+int builtin_exit(char **args);
 
 /* Functions for parsing user input */
 char *read_line(void);
-info_t *parse_line(char *line);
+char **parse_line(char *line);
 
 /* Functions for executing commands */
 int launch(info_t *info);
@@ -65,7 +63,7 @@ void sigint_handler(int signo);
 void sigquit_handler(int signo);
 
 /* Error handling functions */
-void print_error(char *message);
+void print_error(const char *format, ...);
 
 /* Main loop */
 void loop(void);
