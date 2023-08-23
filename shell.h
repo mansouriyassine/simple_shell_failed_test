@@ -59,7 +59,7 @@ int set_env_var(char *var_name, char *var_value);
 int unset_env_var(char *var_name);
 
 /* Functions for handling the PATH environment variable */
-char *get_full_path(char *command);
+char *get_full_path(void);
 void free_path_list(void);
 
 /* Signal handling */

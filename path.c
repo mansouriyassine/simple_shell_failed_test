@@ -1,13 +1,13 @@
 #include "shell.h"
-
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 /* Function prototypes */
 char *_strdup(const char *str);
 
 /* Functions for handling the PATH environment variable */
-char *get_full_path(char *command);
+char *get_full_path(void);
 void free_path_list(void);
 
 /* Implement _strdup function from utils.c */
@@ -17,7 +17,7 @@ size_t len;
 char *dup;
 
 if (!str)
-return (NULL);
+return NULL;
 
 len = strlen(str);
 dup = malloc(len + 1);
@@ -30,11 +30,12 @@ return (dup);
 }
 
 /* Implement the get_full_path function */
-char *get_full_path(char *command)
+char *get_full_path(void)
 {
+return (NULL);
 }
 
 /* Implement the free_path_list function */
-void free_path_list(void) 
+void free_path_list(void)
 {
 }
