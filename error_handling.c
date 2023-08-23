@@ -8,7 +8,8 @@
  * @format: The format string
  * @...: Additional arguments
  */
-void print_error(const char *format, ...) {
+void print_error(const char *format, ...)
+{
 va_list args;
 va_start(args, format);
 vfprintf(stderr, format, args);
@@ -20,7 +21,8 @@ va_end(args);
  * @format: The format string
  * @...: Additional arguments
  */
-void error_exit(const char *format, ...) {
+void error_exit(const char *format, ...)
+{
 va_list args;
 va_start(args, format);
 vfprintf(stderr, format, args);

@@ -1,85 +1,73 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "shell.h"
 #include <string.h>
+#include <stdlib.h>
 #include <unistd.h>
 
-#define TOK_BUFSIZE 64
-
-char *get_env_var(const char *varname);
-int access(const char *pathname, int mode);
-
 /**
- * get_path - Get the PATH environment variable
- * @env: The environment variables
+ * _strdup - Duplicate a string
+ * @str: The string to duplicate
  *
- * Return: The PATH variable if found, NULL otherwise
+ * Return: A pointer to the newly allocated duplicate string
  */
-char *get_path(char **env) {
-(void)env;
-return (get_env_var("PATH"));
-}
+char *_strdup(const char *str)
+{
+size_t len;
+char *dup;
 
-/**
- * split_path - Split the PATH variable into directories
- * @path: The PATH variable value
- *
- * Return: An array of directory strings, or NULL on failure
- */
-char **split_path(char *path) {
-int bufsize = TOK_BUFSIZE, position = 0;
-char **tokens = malloc(bufsize * sizeof(char *));
-char *token;
-
-if (!tokens)
+if (!str)
 return (NULL);
 
-token = strtok(path, ":");
-while (token) {
-tokens[position] = strdup(token);
-position++;
+len = strlen(str);
+dup = malloc(len + 1);
 
-if (position >= bufsize) {
-bufsize += TOK_BUFSIZE;
-tokens = realloc(tokens, bufsize * sizeof(char *));
-if (!tokens) {
-perror("Allocation error");
-exit(EXIT_FAILURE);
-}
-}
-
-token = strtok(NULL, ":");
-}
-
-tokens[position] = NULL;
-return (tokens);
+if (!dup)
+return (NULL);
+strcpy(dup, str);
+return (dup);
 }
 
 /**
- * find_executable - Find the full path to an executable
- * @command: The name of the command
- * @directories: The array of directory strings from PATH
+ * _strcmp - Compare two strings
+ * @s1: The first string
+ * @s2: The second string
  *
- * Return: The full path to the executable, or NULL if not found
+ * Return: 0 if the strings are equal, positive or negative value otherwise
  */
-char *find_executable(const char *command, char **directories) {
-char *executable = NULL;
-int i;
-
-if (!command || !directories)
-return (NULL);
-
-for (i = 0; directories[i] != NULL; i++) {
-char *path = strdup(directories[i]);
-char *temp_executable;
-
-temp_executable = strcat(strcat(path, "/"), command);
-if (access(temp_executable, X_OK) == 0) {
-executable = temp_executable;
-break;
+int _strcmp(const char *s1, const char *s2)
+{
+while (*s1 && *s1 == *s2)
+{
+s1++;
+s2++;
+}
+return (*s1 - *s2);
 }
 
-free(path);
+/**
+ * _putchar - Write a character to stdout
+ * @c: The character to write
+ *
+ * Return: On success, the character written. On error, -1 is returned.
+ */
+int _putchar(char c)
+{
+return (write(1, &c, 1));
 }
 
-return (executable);
+/**
+ * print_number - Print an integer
+ * @n: The integer to print
+ */
+void print_number(int n)
+{
+if (n < 0)
+{
+_putchar('-');
+n = -n;
+}
+
+if (n / 10)
+print_number(n / 10);
+
+_putchar(n % 10 + '0');
 }

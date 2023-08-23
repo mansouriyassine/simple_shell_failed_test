@@ -10,19 +10,26 @@
  *
  * Return: 1 to continue running the shell, 0 to exit
  */
-int execute_command(info_t *info) {
+int execute_command(info_t *info)
+{
 pid_t pid;
 int status;
 
 pid = fork();
-if (pid == 0) {
-if (execvp(info->args[0], info->args) == -1) {
+if (pid == 0)
+{
+if (execvp(info->args[0], info->args) == -1)
+{
 perror("simple_shell");
 }
 exit(EXIT_FAILURE);
-} else if (pid < 0) {
+}
+else if (pid < 0)
+{
 perror("simple_shell");
-} else {
+}
+else
+{
 waitpid(pid, &status, WUNTRACED);
 }
 

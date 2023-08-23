@@ -10,18 +10,20 @@
 #define TOK_BUFSIZE 64
 
 /* Struct to store shell information */
-typedef struct info_struct {
-    char **args;
-    char *command;
-    char *input_file;
-    char *output_file;
-    int background;
+typedef struct info_struct
+{
+char **args;
+char *command;
+char *input_file;
+char *output_file;
+int background;
 } info_t;
 
 /* Struct for built-in commands and their functions */
-typedef struct builtin_func {
-    char *cmd;
-    int (*func)(char **);
+typedef struct builtin_func
+{
+char *cmd;
+int (*func)(char **);
 } builtin_func;
 
 /* Utility functions */
