@@ -11,7 +11,7 @@
  * Return: 1 to continue running the shell, 0 to exit
  */
 int execute_command(info_t *info) {
-pid_t pid, wpid;
+pid_t pid;
 int status;
 
 pid = fork();
@@ -23,9 +23,7 @@ exit(EXIT_FAILURE);
 } else if (pid < 0) {
 perror("simple_shell");
 } else {
-do {
-wpid = waitpid(pid, &status, WUNTRACED);
-} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+waitpid(pid, &status, WUNTRACED);
 }
 
 return (1);

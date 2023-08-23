@@ -7,16 +7,18 @@
  */
 int main(void)
 {
+char *line;
+info_t *info;
+
 while (1)
 {
 print_prompt();
 
-char *line = read_line();
+line = read_line();
 if (!line)
 break;
 
-info_t *info = parse_line(line);
-
+info = parse_line(line);
 if (!info)
 {
 free(line);

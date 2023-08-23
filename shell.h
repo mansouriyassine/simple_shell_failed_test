@@ -7,6 +7,8 @@
 #include <string.h>
 #include <sys/wait.h>
 
+#define TOK_BUFSIZE 64
+
 /* Struct to store shell information */
 typedef struct info_struct {
     char **args;
@@ -35,7 +37,7 @@ int builtin_exit(char **args);
 
 /* Functions for parsing user input */
 char *read_line(void);
-char **parse_line(char *line);
+info_t *parse_line(char *line);
 
 /* Functions for executing commands */
 int launch(info_t *info);
@@ -47,7 +49,7 @@ void free_info(info_t *info);
 
 /* Functions for handling command history */
 void add_to_history(char *command);
-void print_history(void);
+void print_history(char **history);
 
 /* Functions for handling environment variables and variables */
 char *get_env_var(char *var_name);
@@ -67,5 +69,8 @@ void print_error(const char *format, ...);
 
 /* Main loop */
 void loop(void);
+
+/* Array of built-in commands and their corresponding functions */
+extern builtin_func builtin_functions[];
 
 #endif /* SHELL_H */

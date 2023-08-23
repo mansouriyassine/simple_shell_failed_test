@@ -10,17 +10,20 @@
  * Return: A pointer to the newly allocated duplicate string
  */
 char *_strdup(const char *str) {
-if (!str)
-return (NULL);
+    size_t len;
+    char *dup;
 
-size_t len = strlen(str);
-char *dup = malloc(len + 1);
+    if (!str)
+        return (NULL);
 
-if (!dup)
-return (NULL);
+    len = strlen(str);
+    dup = malloc(len + 1);
 
-strcpy(dup, str);
-return (dup);
+    if (!dup)
+        return (NULL);
+
+    strcpy(dup, str);
+    return (dup);
 }
 
 /**
@@ -31,11 +34,11 @@ return (dup);
  * Return: 0 if the strings are equal, positive or negative value otherwise
  */
 int _strcmp(const char *s1, const char *s2) {
-while (*s1 && *s1 == *s2) {
-s1++;
-s2++;
-}
-return (*s1 - *s2);
+    while (*s1 && *s1 == *s2) {
+        s1++;
+        s2++;
+    }
+    return (*s1 - *s2);
 }
 
 /**
@@ -45,7 +48,7 @@ return (*s1 - *s2);
  * Return: On success, the character written. On error, -1 is returned.
  */
 int _putchar(char c) {
-return write(1, &c, 1);
+    return write(1, &c, 1);
 }
 
 /**
@@ -53,13 +56,14 @@ return write(1, &c, 1);
  * @n: The integer to print
  */
 void print_number(int n) {
-if (n < 0) {
-_putchar('-');
-n = -n;
+    if (n < 0) {
+        _putchar('-');
+        n = -n;
+    }
+
+    if (n / 10)
+        print_number(n / 10);
+
+    _putchar(n % 10 + '0');
 }
 
-if (n / 10)
-print_number(n / 10);
-
-_putchar(n % 10 + '0');
-}

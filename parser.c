@@ -5,21 +5,23 @@
 #define TOK_BUFSIZE 64
 
 /**
- * parse_line - Parse input line into tokens
+ * parse_line - Parse input line into info_t struct
  * @line: The input line
  *
- * Return: Pointer to shell_info struct containing parsed information
+ * Return: Pointer to info_t struct containing parsed information
  */
 info_t *parse_line(char *line) {
 int bufsize = TOK_BUFSIZE, position = 0;
 char **tokens = malloc(bufsize * sizeof(char*));
+char *token;
+info_t *info;
 
 if (!tokens) {
 perror("Allocation error");
 exit(EXIT_FAILURE);
 }
 
-char *token = strtok(line, " \t\n\r");
+token = strtok(line, " \t\n\r");
 while (token) {
 tokens[position] = token;
 position++;
@@ -38,7 +40,7 @@ token = strtok(NULL, " \t\n\r");
 
 tokens[position] = NULL;
 
-info_t *info = malloc(sizeof(info_t));
+info = malloc(sizeof(info_t));
 if (!info) {
 perror("Allocation error");
 exit(EXIT_FAILURE);

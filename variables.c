@@ -1,6 +1,7 @@
 #include "shell.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * set_variable - Set an environment variable
@@ -18,24 +19,24 @@ char **new_env;
 if (!name || !value || !env)
 return (-1);
 
-len = _strlen(name) + _strlen(value) + 2; /* for = and \0 */
+len = strlen(name) + strlen(value) + 2; /* for = and \0 */
 new_var = malloc(len * sizeof(char));
 if (!new_var)
 return (-1);
 
-_strcpy(new_var, name);
-_strcat(new_var, "=");
-_strcat(new_var, value);
+strcpy(new_var, name);
+strcat(new_var, "=");
+strcat(new_var, value);
 
 for (i = 0; (*env)[i] != NULL; i++) {
-if (_strncmp((*env)[i], name, _strlen(name)) == 0) {
+if (strncmp((*env)[i], name, strlen(name)) == 0) {
 free((*env)[i]);
 (*env)[i] = new_var;
 return (0);
 }
 }
 
-new_env = _realloc(*env, (i + 2) * sizeof(char *));
+new_env = realloc(*env, (i + 2) * sizeof(char *));
 if (!new_env) {
 free(new_var);
 return (-1);
@@ -61,10 +62,10 @@ int i, len;
 if (!name || !env)
 return (NULL);
 
-len = _strlen(name);
+len = strlen(name);
 
 for (i = 0; env[i] != NULL; i++) {
-if (_strncmp(env[i], name, len) == 0 && env[i][len] == '=') {
+if (strncmp(env[i], name, len) == 0 && env[i][len] == '=') {
 return (&(env[i][len + 1]));
 }
 }

@@ -1,7 +1,12 @@
-#include "shell.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+
+#define TOK_BUFSIZE 64
+
+char *get_env_var(const char *varname);
+int access(const char *pathname, int mode);
 
 /**
  * get_path - Get the PATH environment variable
@@ -9,8 +14,9 @@
  *
  * Return: The PATH variable if found, NULL otherwise
  */
-char *(get_path(char **env)) {
-return (get_variable("PATH", env));
+char *get_path(char **env) {
+(void)env;
+return (get_env_var("PATH"));
 }
 
 /**
@@ -19,24 +25,25 @@ return (get_variable("PATH", env));
  *
  * Return: An array of directory strings, or NULL on failure
  */
-char **(split_path(char *path)) {
+char **split_path(char *path) {
 int bufsize = TOK_BUFSIZE, position = 0;
 char **tokens = malloc(bufsize * sizeof(char *));
+char *token;
 
 if (!tokens)
 return (NULL);
 
-char *token = strtok(path, ":");
+token = strtok(path, ":");
 while (token) {
-tokens[position] = token;
+tokens[position] = strdup(token);
 position++;
 
 if (position >= bufsize) {
 bufsize += TOK_BUFSIZE;
 tokens = realloc(tokens, bufsize * sizeof(char *));
 if (!tokens) {
-frintf(stderr, "Allocation error\n");
-return (NULL);
+perror("Allocation error");
+exit(EXIT_FAILURE);
 }
 }
 
@@ -54,20 +61,25 @@ return (tokens);
  *
  * Return: The full path to the executable, or NULL if not found
  */
-char *(find_executable(const char *command, char **directories)) {
-char *executable;
+char *find_executable(const char *command, char **directories) {
+char *executable = NULL;
 int i;
 
 if (!command || !directories)
 return (NULL);
 
 for (i = 0; directories[i] != NULL; i++) {
-executable = _strcat(directories[i], "/");
-executable = _strcat(executable, command);
-if (access(executable, X_OK) == 0)
-return (executable);
-free(executable);
+char *path = strdup(directories[i]);
+char *temp_executable;
+
+temp_executable = strcat(strcat(path, "/"), command);
+if (access(temp_executable, X_OK) == 0) {
+executable = temp_executable;
+break;
 }
 
-return (NULL);
+free(path);
+}
+
+return (executable);
 }
