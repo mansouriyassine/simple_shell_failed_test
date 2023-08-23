@@ -4,12 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/**
- * execute_command - Execute a command
- * @info: Pointer to shell_info struct containing command information
- *
- * Return: 1 to continue running the shell, 0 to exit
- */
 int execute_command(info_t *info)
 {
 pid_t pid;
